@@ -17,7 +17,7 @@ def run():
         name = st.text_input("Name", placeholder="Enter your name")
         age = st.number_input("Age", min_value=0, max_value=120, step=1)
         gen = st.selectbox("Gender", ["Male", "Female", "Other"])
-        height = st.text_input("Height", placeholder="Enter your height")
+        height = st.text_input("Height", placeholder="Enter your height(in meters)")
         birthdate = st.date_input("Enter your birthdate",min_value=dt.date(1900,1,1),max_value=dt.date(2025,1,1))
         blood_gp = st.selectbox("Blood Group", ['A+','A-','B+','B+','O+','O-','AB+','AB-'])
         

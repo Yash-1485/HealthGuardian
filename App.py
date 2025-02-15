@@ -3,6 +3,8 @@ import DB_Creation as dbc
 import Signup
 import Login
 import Home
+import HealthData
+import Dashboard
 import streamlit as st
 from streamlit_option_menu import option_menu as om
 
@@ -21,8 +23,8 @@ def run():
     with st.sidebar:
         page = om(
             menu_title="Navigation",
-            options=["Home", "Login", "Signup"],
-            icons=["house-fill", "person-fill", "pencil-square"],
+            options=["Home","Dashboard","Health Data" ,"Login", "Signup"],
+            icons=["house-fill","bar-chart","hospital", "person-fill", "pencil-square"],
             default_index=0,
             styles={
                 "container": {"padding": "5px", "background-color": "#b3e5fc"},
@@ -36,12 +38,20 @@ def run():
     if page == "Home":
         if st.session_state["logged_in"]:
             Home.run()
-            pass
+        else:
+            st.warning("You haven't logged in yet. Please log in first!")
+    elif page=="Dashboard":
+        if st.session_state["logged_in"]:
+            Dashboard.run()
+        else:
+            st.warning("You haven't logged in yet. Please log in first!")
+    elif page=="Health Data":
+        if st.session_state["logged_in"]:
+            HealthData.run()
         else:
             st.warning("You haven't logged in yet. Please log in first!")
     elif page == "Login":
         Login.run()
-        pass
     elif page == "Signup":
         Signup.run()
 
