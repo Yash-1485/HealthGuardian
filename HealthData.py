@@ -3,7 +3,7 @@ import mysql.connector as conn
 from datetime import *
 import streamlit as st
 from User import User
-from Fetch_Health_Data import fetch_today_data
+from Fetch_Today_Health_Data import fetch_today_data
 
 table_name="user"
 # def add_health_data():
