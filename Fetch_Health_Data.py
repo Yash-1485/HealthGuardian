@@ -25,9 +25,46 @@ def fetch_health_data(user_id, period="daily"):
             cur.execute(query, (user_id, start_date, today))
 
         data = cur.fetchall()
+        dummy_data=data.copy()
+        record_dates=[]
+        bp_systolic=[]
+        bp_diastolic=[]
+        heartbeat=[]
+        sugar=[]
+        oxygen=[]
+        weight=[]
+        temperature=[]
+        bmi=[]
+        # print(data,dummy_data)
+        for inner_data in dummy_data:
+            record_dates.append(inner_data['record_date'])
+            bp_systolic.append(inner_data['bp_systolic'])
+            bp_diastolic.append(inner_data['bp_diastolic'])
+            heartbeat.append(inner_data['heartbeat'])
+            sugar.append(inner_data['sugar'])
+            oxygen.append(inner_data['oxygen'])
+            weight.append(inner_data['weight'])
+            temperature.append(inner_data['temperature'])
+            bmi.append(inner_data['bmi'])
+        # print(data,dummy_data)
+        
+        health_dictonary={
+            'Record Dates:':record_dates,
+            'Bp(Systolic)':bp_systolic,
+            'Bp(Diastolic)':bp_diastolic,
+            'Heartbeat':heartbeat,
+            'Sugar':sugar,
+            'Oxygen':oxygen,
+            'Weight':weight,
+            'Temprature':temperature,
+            'BMI':bmi,
+        }
+        
+        df=pd.DataFrame(health_dictonary)
+        
         db.close()
 
-        return pd.DataFrame(data) if data else None
+        return pd.DataFrame(data) if data else None,df
 
     except Exception as e:
         print(f"Error fetching data: {e}")

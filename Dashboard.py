@@ -15,8 +15,8 @@ def run():
         return
     if data:
         st.subheader("Today's Health Data")
-        st.write(f"📅 Date: {data[2]}/{data[3]}")
-        st.write(f"💖 Blood Pressure: {data[4]}")
+        st.write(f"📅 Date: {data[2]}")
+        st.write(f"💖 Blood Pressure: {data[3]}/{data[4]}")
         st.write(f"💓 Heartbeat: {data[5]} bpm")
         st.write(f"🍬 Sugar Level: {data[6]} mg/dL")
         st.write(f"🫁 Oxygen Level: {data[7]}%")
@@ -26,8 +26,8 @@ def run():
     else:
         st.warning("No health data found for today. Please enter your health details.")
         
-    user_id = user.uid
     period = st.radio("Select Time Period", ["Daily", "Weekly", "Monthly"])
-    graph_type = st.selectbox("Select Graph Type", ["Line", "Bar", "Histogram", "Scatter", "Pie"])
+    graph_type = st.selectbox("Select Graph Type", ["Line", "Bar", "Scatter"])
+    # graph_type = st.selectbox("Select Graph Type", ["Line"])
     
     plot_health_data(user_id, period.lower(), graph_type)
