@@ -2,9 +2,10 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 from Fetch_Health_Data import fetch_health_data
-
+from User import User
 path='CSVs'
 def plot_health_data(user_id, period, graph_type):
+    user:User=st.session_state["User"]
     data = fetch_health_data(user_id, period)[0]
     df = fetch_health_data(user_id, period)[1]
     
@@ -55,7 +56,8 @@ def plot_health_data(user_id, period, graph_type):
 
     btn=st.button(label="Export CSV File")
     if(btn):
-        df.to_csv(path+f"/{period}_data.csv")
+        df.to_csv(path+f"/{user_id}_{user.name}_{period}_data.csv")
+        
     
     plt.tight_layout()
     st.pyplot(fig)

@@ -1,8 +1,11 @@
 import streamlit as st
 import requests
+import pandas as pd
+import numpy as np
 import mysql.connector as conn
 import DB_Creadentials as crd
 from User import User
+from Fetch_Health_Data import *
 
 def run():
     try:
@@ -13,8 +16,38 @@ def run():
         if("User" in st.session_state):
             user:User=st.session_state["User"]
             flag=True
-            # st.write(user.name)    
+        # st.write(user.name)    
         
+    except Exception as e:
+        print(e)
+        
+    # Health Related Recommandations
+    try:
+        def getRecommandations(period="weekly"):
+            period = st.radio("Select Time Period", ["Daily", "Weekly", "Monthly"])
+            if(period):
+                data=generate_recommendations(fetch_health_data(user.uid,period.lower())[1])
+                recommandations,avg_para=data[0],data[1]
+                
+                max_len = max(len(avg_para), len(recommandations))
+                avg_para += ["N/A"] * (max_len - len(avg_para))
+                recommandations += ["No recommendation"] * (max_len - len(recommandations))
+                avg_para = [float(x) if isinstance(x, np.float64) else x for x in avg_para]
+                avg_para = [float(x) if isinstance(x, np.int32) else x for x in avg_para]
+                data_dict = {
+                    "Parameter": ["Blood Pressure (Systolic/Diastolic)", "Heartbeat", "Sugar", "Oxygen", "BMI", "Temperature"],
+                    "Average Value": [
+                        f"{round(float(bp[0]), 2)}/{round(float(bp[1]), 2)}" if isinstance(bp, tuple) else 
+                        str(round(float(bp), 2)) if isinstance(bp, (int, float, np.float64)) else "N/A"
+                        for bp in avg_para
+                    ],
+                    "Recommendation": recommandations[:len(avg_para)]
+                }
+                # print("DEBUG: avg_para =", avg_para)
+                # print("DEBUG: Data Types =", [type(x) for x in avg_para])
+
+                df=pd.DataFrame(data_dict)
+                st.table(df)
     except Exception as e:
         print(e)
     
@@ -46,8 +79,8 @@ def run():
             if response.status_code == 200:
                 return response.json().get("articles", [])
             else:
-                return None
-
+                return None        
+            
         def main():
             st.title("📰 Health Related Article")
             st.subheader("Stay updated with the latest health trends!")
@@ -66,6 +99,7 @@ def run():
                         st.write("---")  # Separator
                 else:
                     st.warning("No articles found. Please try again later.")
+        getRecommandations()
         main()
     except Exception as e:
         print(e)

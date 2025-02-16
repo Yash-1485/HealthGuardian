@@ -61,7 +61,6 @@ def fetch_health_data(user_id, period="daily"):
         }
         
         df=pd.DataFrame(health_dictonary)
-        
         db.close()
 
         return pd.DataFrame(data) if data else None,df
@@ -69,3 +68,75 @@ def fetch_health_data(user_id, period="daily"):
     except Exception as e:
         print(f"Error fetching data: {e}")
         return None
+
+def generate_recommendations(df):
+    if df is None or df.empty:
+        return "No data available to generate recommendations."
+
+    # Calculate average values
+    avg_bp_systolic = df["Bp(Systolic)"].mean()
+    avg_bp_diastolic = df["Bp(Diastolic)"].mean()
+    avg_heartbeat = df["Heartbeat"].mean()
+    avg_sugar = df["Sugar"].mean()
+    avg_oxygen = df["Oxygen"].mean()
+    avg_weight = df["Weight"].mean()
+    avg_temperature = df["Temprature"].mean()
+    avg_bmi = df["BMI"].mean()
+
+    # Define normal ranges
+    normal_ranges = {
+        "bp_systolic": (90, 160),
+        "bp_diastolic": (60, 100),
+        "heartbeat": (60, 100),
+        "sugar": (70, 160),
+        "oxygen": (95, 100),
+        "bmi": (18.5, 24.9)
+    }
+
+    recommendations = []
+    avg_para=[(avg_bp_systolic,avg_bp_diastolic),avg_heartbeat,avg_sugar,avg_oxygen,avg_bmi,avg_temperature]
+    # Blood Pressure
+    if avg_bp_systolic > normal_ranges["bp_systolic"][1] or avg_bp_diastolic > normal_ranges["bp_diastolic"][1]:
+        recommendations.append("High BP detected. Reduce salt intake and engage in light exercises.")
+    elif avg_bp_systolic < normal_ranges["bp_systolic"][0] or avg_bp_diastolic < normal_ranges["bp_diastolic"][0]:
+        recommendations.append("Low BP detected. Stay hydrated and increase salt intake moderately.")
+    else:
+        recommendations.append('BP is normal, not to worry.')
+
+    # Heart Rate
+    if avg_heartbeat > normal_ranges["heartbeat"][1]:
+        recommendations.append("High heart rate detected. Reduce caffeine and stress levels.")
+    elif avg_heartbeat < normal_ranges["heartbeat"][0]:
+        recommendations.append("Low heart rate detected. Increase physical activity.")
+    else:
+        recommendations.append('Heartbeat is normal, not to worry.')
+
+    # Sugar Levels
+    if avg_sugar > normal_ranges["sugar"][1]:
+        recommendations.append("High sugar levels detected. Reduce sugar intake and exercise more.")
+    elif avg_sugar < normal_ranges["sugar"][0]:
+        recommendations.append("Low sugar levels detected. Eat small frequent meals rich in protein.")
+    else:
+        recommendations.append('Sugar Level is normal, not to worry.')
+
+    # Oxygen Levels
+    if avg_oxygen < normal_ranges["oxygen"][0]:
+        recommendations.append("Low oxygen levels detected. Practice breathing exercises and check for respiratory issues.")
+    else:
+        recommendations.append('Oxygen Level is normal, not to worry.')
+
+    # BMI
+    if avg_bmi > normal_ranges["bmi"][1]:
+        recommendations.append("High BMI detected. Focus on a balanced diet and regular workouts.")
+    elif avg_bmi < normal_ranges["bmi"][0]:
+        recommendations.append("Low BMI detected. Increase calorie intake with healthy foods.")
+    else:
+        recommendations.append('BMI is normal, not to worry.')
+
+    # Temperature
+    if avg_temperature > 99.5:
+        recommendations.append("High body temperature detected. Check for fever and stay hydrated.")
+    else:
+        recommendations.append('Temprature is normal, not to worry.')
+
+    return recommendations,avg_para
