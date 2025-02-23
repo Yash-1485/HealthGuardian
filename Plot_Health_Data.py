@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Fetch_Health_Data import fetch_health_data
 from User import User
+import base64
 path='CSVs'
 def plot_health_data(user_id, period, graph_type):
     user:User=st.session_state["User"]
@@ -79,3 +80,7 @@ def setAxis(parameter, x_vals, values):
     xmin, xmax = 0, len(x_vals) - 5
 
     return xmin, xmax, ymin, ymax
+
+def create_download_link(val, filename):
+    b64 = base64.b64encode(val)  # val looks like b'...'
+    return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="{filename}.pdf">Download file</a>'

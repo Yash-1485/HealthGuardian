@@ -28,20 +28,27 @@ def run():
     
     with st.form("health_data_form"):
         st.subheader("Enter today's health data")
-        bp = st.text_input("Blood Pressure (e.g., 120,80)")
+        bp_systolic = st.text_input("Blood Pressure Systolic",value='')
+        bp_diastolic = st.text_input("Blood Pressure Dystolic",value='')
         heartbeat = st.number_input("Heartbeat (bpm)", min_value=30, max_value=200, step=1)
         sugar = st.number_input("Blood Sugar Level (mg/dL)", min_value=50, max_value=400, step=1)
         oxygen = st.number_input("Oxygen Level (Oxygen Saturation(%))", min_value=70, max_value=100, step=1)
         weight = st.number_input("Weight (kg)", min_value=30.0, max_value=200.0, step=0.1)
-        temperature = st.number_input("Temperature (°C)", min_value=30.0, max_value=45.0, step=0.1)
+        # Temperature input in Fahrenheit
+        temperature_f = st.number_input("Enter Temperature (°F)", min_value=86.0, max_value=113.0, step=0.1, key="temp_fahrenheit")
+
+        # Convert Fahrenheit to Celsius
+        temperature = (temperature_f - 32) * 5.0 / 9.0 if temperature_f else None
 
         bmi = float(weight) / (float(user.get_height()) ** 2)
-        bp=[value.strip() for value in bp.split(',')]
 
         submitted = st.form_submit_button("Submit")
         if submitted:
-            save_health_data(user_id, today, bp[0], bp[1], heartbeat, sugar, oxygen, weight, temperature, bmi)
-            st.success("Health data added successfully!")            
+            if not bp_systolic or not bp_diastolic or not heartbeat or not sugar or not oxygen or not weight or not temperature:
+                st.warning("Please fill out the required fields")            
+            else:
+                save_health_data(user_id, today, int(bp_systolic), int(bp_diastolic), heartbeat, sugar, oxygen, weight, temperature, bmi)
+                st.success("Health data added successfully!")
 
 def save_health_data(user_id, record_date, bp1, bp2, heartbeat, sugar, oxygen, weight, temperature, bmi):
     try:

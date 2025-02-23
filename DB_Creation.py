@@ -34,6 +34,19 @@ def db_creation():
             bmi DECIMAL(5,2) NOT NULL,        
             FOREIGN KEY (uid) REFERENCES user(uid) ON DELETE CASCADE
         );
+        """,
+        """
+        CREATE TABLE IF NOT EXISTS goals (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            uid INT NOT NULL,
+            date DATE NOT NULL,
+            goals JSON,
+            custom_activities JSON,
+            completed BOOLEAN DEFAULT FALSE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (uid) REFERENCES user(uid) ON DELETE CASCADE
+        );
         """
         ]
         db.database=crd.database
