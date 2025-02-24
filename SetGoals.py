@@ -88,7 +88,7 @@ def run():
             message = st.empty()
             time.sleep(0.5)
             message.success(f"✅ Added '{goal_type}' with a goal of {target_value} {unit}")
-            time.sleep(2)
+            time.sleep(1)
             message.empty()
     else:
         st.subheader("➕ Add New Custom Activity")
@@ -101,7 +101,7 @@ def run():
                 message = st.empty()
                 time.sleep(0.5)
                 message.success(f"✅ Added '{activity_name}' with a goal of {goal_value} minutes/day!")
-                time.sleep(2)
+                time.sleep(1)
                 message.empty()
             else:
                 st.info('Enter atleast a goal')
@@ -128,6 +128,7 @@ def run():
                 st.session_state.goals = {}
         else:
             st.info('Set atleast a Goal')
+        st.rerun()
     
     if check_goals_from_db(user.uid):
         st.session_state.count_goals+=1

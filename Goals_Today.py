@@ -71,6 +71,19 @@ def mark_goal_completed(uid):
     except Exception as e:
         st.error(f"Error updating completion status: {str(e)}")
 
+def mark_goal_uncompleted(uid):
+    try:
+        db = conn.connect(
+            host=crd.host, user=crd.user, password=crd.pwd, database=crd.database
+        )
+        cur = db.cursor()
+        query = "UPDATE goals SET completed=%s WHERE uid=%s AND date=%s"
+        cur.execute(query, (False, uid, date.today()))
+        db.commit()
+        db.close()        
+    except Exception as e:
+        st.error(f"Error updating completion status: {str(e)}")
+
 def onclick_remove(goals,b):
     if goals:
         st.session_state["mark_all"] = False 
@@ -107,11 +120,17 @@ def run():
         m_btn=st.button("✅ Mark All as Completed", on_click=onclick_remove,args=(goals.items(),True), disabled=st.session_state['mark_all'])
         if not goals.items() and (not st.session_state.mark_all and not m_btn):
             mark_goal_completed(uid)
-            mark_update_all_goals_completed(uid)
+            mark_update_all_goals_completed(uid)            
             st.rerun()
         if (not st.session_state.mark_all and m_btn):
-            mark_update_all_goals_completed(uid)                        
+            mark_goal_completed(uid)
+            mark_update_all_goals_completed(uid)                                    
             st.rerun()
+        if(st.session_state['mark_all']==True):
+            st.success('All goals completed')
+            st.balloons()
+        else:
+            mark_goal_uncompleted(uid)
     else:
         st.info("No goals set for today.")
 
