@@ -32,19 +32,16 @@ def update_goals_from_db(uid,goals):
         query = "SELECT id,goals FROM goals WHERE uid=%s AND date=%s"
         cur.execute(query, (uid, date.today()))
         data=cur.fetchone()
-        print(data)
         id=data[0]
         # result = eval(data[1].replace('true','True').replace('false','False'))
         result = json.loads(data[1])
         for key,value in goals.items():
             result[key]=value
-        print(result)
         up_query="Update goals SET goals=%s where id=%s AND uid=%s AND date=%s"
         cur.execute(up_query,(json.dumps(result),id,uid,date.today()))
         db.commit()
         db.close()
         st.success("Goals updated successfully!")
-        # print(result)
     except Exception as e:
         st.error(f"Database error: {str(e)}")
         return None
