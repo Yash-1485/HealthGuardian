@@ -41,7 +41,7 @@ def update_goals_from_db(uid,goals):
         cur.execute(up_query,(json.dumps(result),id,uid,date.today()))
         db.commit()
         db.close()
-        st.success("Goals updated successfully!")
+        # st.success("Goals updated successfully!")
     except Exception as e:
         st.error(f"Database error: {str(e)}")
         return None
@@ -128,6 +128,8 @@ def run():
                 st.session_state.goals = {}
         else:
             st.info('Set atleast a Goal')
+        st.success('Goals set successfully')
+        time.sleep(2)
         st.rerun()
     
     if check_goals_from_db(user.uid):

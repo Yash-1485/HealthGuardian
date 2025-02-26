@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Fetch_Health_Data import fetch_health_data
 from User import User
-import base64
+import base64,io
 path='CSVs'
 def plot_health_data(user_id, period, graph_type):
     user:User=st.session_state["User"]
@@ -55,10 +55,20 @@ def plot_health_data(user_id, period, graph_type):
         axs[i].set_title(label)
         axs[i].legend()
 
-    btn=st.button(label="Export CSV File")
-    if(btn):
-        df.to_csv(path+f"/{user_id}_{user.name}_{period}_data.csv")
-        
+    # btn=st.button(label="Export CSV File")
+    # if(btn):
+    #     df.to_csv(path+f"/{user_id}_{user.name}_{period}_data.csv")
+    csv_buffer = io.StringIO()
+    df.to_csv(csv_buffer, index=False)
+    csv_data = csv_buffer.getvalue()
+
+    # Create Download Button
+    st.download_button(
+        label="📥 Download Data as CSV",
+        data=csv_data,
+        file_name=f"{user_id}_{user.name}_{period}_data.csv",
+        mime="text/csv"
+    )    
     
     plt.tight_layout()
     st.pyplot(fig)
