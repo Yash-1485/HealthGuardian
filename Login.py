@@ -29,14 +29,10 @@ def run():
         else:
             global count
             count+=1
-            print(count)
             st.error("Invalid email or password. Please try again.")
             
             if(count>2):
                 st.info("If you haven't signed up, Sign Up First")
-            
-            # st.warning("Invalid email or password! Please Enter correct email or password")
-        # print(data)
 
 def fetch_user(email,pwd):
     db=conn.connect(host=crd.host,user=crd.user,password=crd.pwd,database=crd.database)

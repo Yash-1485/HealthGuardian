@@ -6,7 +6,6 @@ from User import User
 from Fetch_Today_Health_Data import fetch_today_data
 
 table_name="user"
-# def add_health_data():
 def run():    
     st.title("Log Your Daily Health Data")
     if "User" not in st.session_state:

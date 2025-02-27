@@ -28,6 +28,5 @@ def run():
         
     period = st.radio("Select Time Period", ["Daily", "Weekly", "Monthly"])
     graph_type = st.selectbox("Select Graph Type", ["Line", "Bar", "Scatter"])
-    # graph_type = st.selectbox("Select Graph Type", ["Line"])
     
     plot_health_data(user_id, period.lower(), graph_type)

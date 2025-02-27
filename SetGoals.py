@@ -33,7 +33,6 @@ def update_goals_from_db(uid,goals):
         cur.execute(query, (uid, date.today()))
         data=cur.fetchone()
         id=data[0]
-        # result = eval(data[1].replace('true','True').replace('false','False'))
         result = json.loads(data[1])
         for key,value in goals.items():
             result[key]=value
@@ -134,6 +133,5 @@ def run():
     
     if check_goals_from_db(user.uid):
         st.session_state.count_goals+=1
-        # print(st.session_state.count_goals)
         if st.session_state.count_goals<2:
             st.info('You\'ve already added todays goals, If you want to see than you can go to the \'Goals Today\' tab.')

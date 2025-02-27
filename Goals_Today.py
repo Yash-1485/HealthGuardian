@@ -143,7 +143,6 @@ def complete_Tasks(uid,goal):
         query = "SELECT id,goals FROM goals WHERE uid=%s AND date=%s"
         cur.execute(query, (uid, date.today()))
         data=cur.fetchone()
-        print(data)
         id=data[0]
         result = json.loads(data[1])
         result[goal][1]=True

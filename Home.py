@@ -43,8 +43,6 @@ def run():
                     ],
                     "Recommendation": recommandations[:len(avg_para)]
                 }
-                # print("DEBUG: avg_para =", avg_para)
-                # print("DEBUG: Data Types =", [type(x) for x in avg_para])
 
                 df=pd.DataFrame(data_dict)
                 st.table(df)
@@ -92,7 +90,7 @@ def run():
 
                 if articles:
                     st.success(f"Showing latest articles on **{selected_topic}**")
-                    for article in articles[:5]:  # Display top 5 articles
+                    for article in articles[:5]:  # Display top 5 articles only
                         st.subheader(article["title"])
                         st.write(article.get("description", "No description available."))
                         st.write(f"[Read more]({article['url']})")

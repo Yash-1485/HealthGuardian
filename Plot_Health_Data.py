@@ -55,9 +55,6 @@ def plot_health_data(user_id, period, graph_type):
         axs[i].set_title(label)
         axs[i].legend()
 
-    # btn=st.button(label="Export CSV File")
-    # if(btn):
-    #     df.to_csv(path+f"/{user_id}_{user.name}_{period}_data.csv")
     csv_buffer = io.StringIO()
     df.to_csv(csv_buffer, index=False)
     csv_data = csv_buffer.getvalue()

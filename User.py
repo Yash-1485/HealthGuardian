@@ -123,7 +123,6 @@ def getuid():
     # Fetching the last enered result
     last_entry = cursor.fetchone()
     if(cursor.rowcount!=0):
-        print(last_entry[0])
         return last_entry[0]+1
     else:
         return 1

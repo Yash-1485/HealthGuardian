@@ -31,9 +31,7 @@ def run():
                 
                 new_user=User(name,age,gen,birthdate,blood_gp,height,em,password)
                 
-                insert_data(new_user)
-                                
-                # st.success("Account created successfully!")
+                insert_data(new_user)                                
                 st.write("Welcome, ", name)
     clear=st.button("Clear Form")
     if(clear):

@@ -35,7 +35,7 @@ def fetch_health_data(user_id, period="daily"):
         weight=[]
         temperature=[]
         bmi=[]
-        # print(data,dummy_data)
+
         for inner_data in dummy_data:
             record_dates.append(inner_data['record_date'])
             bp_systolic.append(inner_data['bp_systolic'])
@@ -46,7 +46,7 @@ def fetch_health_data(user_id, period="daily"):
             weight.append(inner_data['weight'])
             temperature.append(inner_data['temperature'])
             bmi.append(inner_data['bmi'])
-        # print(data,dummy_data)
+
         
         health_dictonary={
             'Record Dates:':record_dates,
