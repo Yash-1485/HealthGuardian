@@ -105,16 +105,23 @@ def run():
         st.subheader("📅 Today's Goals")
         
         # Display predefined goals
+        goal_units = {
+            "Weight": "kg", "Steps": "steps/day", "Sleep": "hours/night",
+            "Blood Pressure": "mmHg", "Sugar": "mg/dL", "Heart Rate": "bpm",
+            "Water Intake": "liters/day", "Meditation": "minutes/day",
+            "Exercise/Yoga": "minutes/day", "Strength Training": "minutes/day",
+            "Custom Activities": "minutes/day"
+        }
         if goals.items():
             for goal, value in goals.items():
-                ck=st.checkbox(f"{goal}: {value[0]}", key=goal)
+                ck=st.checkbox(f"{goal}: {value[0]} {goal_units[goal if goal.find('Custom Activities')==-1 else 'Custom Activities']}", key=goal)
                 if ck:
                     complete_Tasks(uid,goal)
                     st.rerun()
             
         st.subheader("📅 Today's Completed Goals")
         for goal, value in c_goals.items():
-            st.write(f"{goal}: {value[0]} Status:✅")
+            st.write(f"{goal}: {value[0]} {goal_units[goal if goal.find('Custom Activities')==-1 else 'Custom Activities']}, Status:✅")
             
         onclick_remove(goals.items(),True)
         m_btn=st.button("✅ Mark All as Completed", on_click=onclick_remove,args=(goals.items(),True), disabled=st.session_state['mark_all'])
