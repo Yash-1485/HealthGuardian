@@ -85,10 +85,10 @@ def generate_recommendations(df):
 
     # Define normal ranges
     normal_ranges = {
-        "bp_systolic": (90, 160),
+        "bp_systolic": (90, 120),
         "bp_diastolic": (60, 100),
         "heartbeat": (60, 100),
-        "sugar": (70, 160),
+        "sugar": (70, 125),
         "oxygen": (95, 100),
         "bmi": (18.5, 24.9)
     }

@@ -92,6 +92,7 @@ def onclick_remove(goals,b):
     
 
 def run():
+    st.title("HealthGuardian")
     if "mark_all" not in st.session_state:
         st.session_state.mark_all = False
     user:User=st.session_state['User']

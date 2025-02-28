@@ -27,6 +27,7 @@ def email_exists(email):
     return count > 0
 
 def run():
+    st.title("HealthGuardian")
     st.title("Signup Page")
 
     with st.form("signup_form"):

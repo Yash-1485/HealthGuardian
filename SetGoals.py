@@ -63,6 +63,7 @@ def check_goals_from_db(uid):
         st.error(f"Database error: {str(e)}")
 
 def run():
+    st.title("HealthGuardian")
     user:User=st.session_state['User']
     goal_units = {
         "Weight": "kg", "Steps": "steps/day", "Sleep": "hours/night",

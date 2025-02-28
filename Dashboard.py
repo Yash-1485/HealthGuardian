@@ -4,6 +4,7 @@ from Fetch_Today_Health_Data import fetch_today_data
 from Plot_Health_Data import *
 
 def run():
+    st.title("HealthGuardian")
     st.title("Your Health Dashboard")
 
     user:User=st.session_state["User"]

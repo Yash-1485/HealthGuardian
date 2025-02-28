@@ -7,7 +7,8 @@ from Fetch_Today_Health_Data import fetch_today_data
 
 table_name = "user"
 
-def run():    
+def run():  
+    st.title("HealthGuardian")  
     st.title("Log Your Daily Health Data")
     
     if "User" not in st.session_state:

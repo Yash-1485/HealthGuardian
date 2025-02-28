@@ -36,6 +36,7 @@ def get_user_profile(uid):
 
 # User Profile Page
 def run():
+    st.title("HealthGuardian")
     if "User" not in st.session_state:
         st.error("⚠️ User session not found. Please log in.")
         return
